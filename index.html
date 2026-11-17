@@ -800,7 +800,7 @@ footer{border-top:1px solid var(--line);padding-block:48px}
 
   // Vignettes légères pour les grilles (l'original reste pour la visionneuse)
   const RT=/url\(photos\/(anniversaire-(0[1-9]|1[0-8])|entreprise-(0\d|1[0-2])|lifestyle-(0\d|1\d|20)|mariage-0\d|sport-\d\d|studio-(0\d|1[0-2]))\.jpg/;
-  function TH(g){return RT.test(g)?g.replace("url(photos/","url(thumbs/"):g}
+  function TH(g){return g}
   const lazyIO="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.style.setProperty("--g",el.dataset.g);el.classList.remove("lazy");lazyIO.unobserve(el)}}),{rootMargin:"400px 0px"}):null;
   function watchLazy(root){root.querySelectorAll(".ph.lazy").forEach(el=>{if(lazyIO)lazyIO.observe(el);else{el.style.setProperty("--g",el.dataset.g);el.classList.remove("lazy")}})}
   // Cases catégories
