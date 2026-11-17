@@ -1,0 +1,996 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>vendeirovisions.com</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preload" as="image" href="hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Lato:wght@700&display=swap">
+<style>
+/* Layout: le travail d'abord — mosaïque plein écran en ouverture, galerie filtrable avec visionneuse, puis séances / réservation en bas, compactes */
+:root{
+  --bg:#0f0f0f; --bg-2:#171615; --line:#2a2826; --fg:#efe9e1; --muted:#9a9187; --amber:#d8b98a; --lato:"Lato","Helvetica Neue",Arial,sans-serif; --rec:#d9483b;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* NAV — barre posée sur la photo, devient pleine au défilement */
+header{position:fixed;top:0;left:0;right:0;z-index:15;padding-top:env(safe-area-inset-top,0px);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom-color:var(--line)}
+.nav{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:28px;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:#efe9e1}
+.logo{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;line-height:1;white-space:nowrap}
+.logo span{color:var(--amber)}
+@media (max-width:420px){.nav{gap:12px}.logo{font-size:21px}.burger{gap:8px}}
+.links{display:flex;gap:24px;flex-wrap:wrap;margin-left:auto;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.links a{text-decoration:none;color:rgba(239,233,225,.85);padding-block:4px;border-bottom:1px solid transparent}
+.links a:hover,.links a.on{color:#efe9e1;border-bottom-color:var(--amber)}
+.socials{display:flex;gap:14px}
+.socials a{color:#efe9e1;display:flex}
+.socials a:hover{color:var(--amber)}
+.burger{display:none;margin-left:auto;background:none;border:0;color:#efe9e1;cursor:pointer;align-items:center;gap:10px;padding:8px 0;font:inherit}
+.burger span{display:block;width:22px;height:2px;background:currentColor}
+.burger span+span{margin-top:6px}
+.burger{flex-wrap:wrap;width:auto}
+.burger b{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.burger span{position:relative}
+@media (max-width:900px){.links,.socials{display:none}.burger{display:grid;grid-template-columns:22px auto;grid-template-rows:auto auto;column-gap:10px}.burger span{grid-column:1}.burger b{grid-column:2;grid-row:1/3;align-self:center}}
+.mnav{position:fixed;inset:0;z-index:14;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:36px;padding-top:calc(env(safe-area-inset-top,0px) + 80px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 32px);padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.mnav nav{display:grid;gap:6px}
+.mnav nav a{font-family:var(--display);font-weight:900;font-size:clamp(44px,12vw,72px);text-transform:uppercase;line-height:1.05;text-decoration:none}
+.mnav nav a:hover{color:var(--amber)}
+.mnav-foot{display:flex;gap:20px}
+.mnav-foot a{color:var(--fg)}
+.mnav-foot svg{width:26px;height:26px}
+/* RÉSEAUX + NEWSLETTER */
+.soc-icons{display:flex;gap:12px;flex-wrap:wrap}
+.soc-icons a{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--fg);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.soc-icons svg{width:26px;height:26px;padding:14px;box-sizing:content-box;border:1px solid var(--line);border-radius:50%;transition:color .2s,border-color .2s,background .2s}
+.soc-icons a:hover svg,.soc-icons a:focus-visible svg{color:#111;background:var(--amber);border-color:var(--amber)}
+.foot{grid-template-columns:1.6fr 1fr 1fr!important;gap:36px}
+@media (max-width:900px){.foot{grid-template-columns:1fr 1fr!important}}
+@media (max-width:560px){.foot{grid-template-columns:1fr!important}}
+.foot .hours{font-size:14px}
+.nl-text{color:var(--muted);font-size:14px;margin:0 0 14px!important;max-width:38ch}
+#nlForm{display:flex;gap:8px;flex-wrap:wrap}
+#nlForm input{flex:1 1 200px;min-width:0;background:var(--bg-2);border:1px solid var(--line);border-bottom-color:var(--amber);color:var(--fg);font:inherit;font-size:15px;padding:12px 14px}
+#nlForm input:focus{outline:none;border-color:var(--amber)}
+#nlForm .btn{padding:12px 18px}
+.nl-msg{font-size:14px;margin:10px 0 0!important;min-height:1.2em;color:var(--amber)}
+.nl-msg.bad{color:var(--rec)}
+.nl-small{color:var(--muted);font-size:12px!important;margin-top:4px!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wa{display:inline-flex;align-items:center;gap:8px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--amber)}
+.wa:hover{color:var(--amber)}
+.wa svg{width:20px;height:20px;flex:none;color:var(--amber)}
+.wa-note{color:var(--muted);font-size:13px!important;margin-top:4px!important}
+.recap-btns{display:flex;gap:10px;flex-wrap:wrap}
+.wa-btn svg{width:18px;height:18px}
+.wa-hint{color:var(--muted);font-size:13px;margin:10px 0 0}
+
+.feature{margin:0 auto 8px;width:min(100%,880px,calc(52vh * 16 / 9))}
+.feature video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000}
+
+/* PAGES */
+.view{padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+.view[data-view="accueil"]{padding-top:0}
+.view>section:first-child{border-top:0}
+.view>section{padding-block:56px 72px}
+.page-head{padding-block:40px 24px}
+.page-head h2{margin:0}
+.back{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);text-decoration:none;display:inline-block;margin-bottom:14px}
+.back:hover{color:var(--fg)}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.contact-grid p{margin:0 0 6px}
+.big-line{font-size:20px;font-weight:700;overflow-wrap:anywhere}
+body[data-page="accueil"] .hero{min-height:100vh;margin-bottom:0}
+/* AVIS : bande qui défile */
+.avis{border-top:0}
+.avis .wrap{text-align:center}
+.avis h2{margin-bottom:32px}
+.avis-strip{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.avis-track{display:flex;gap:18px;width:max-content;padding-inline:9px;animation:avisDefile var(--dur,60s) linear infinite}
+.avis-strip:hover .avis-track{animation-play-state:paused}
+@keyframes avisDefile{to{transform:translateX(-50%)}}
+/* CARROUSEL ACCUEIL */
+.hc{margin:0 0 48px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.hc-track{display:flex;gap:8px;width:max-content;animation:avisDefile var(--dur,90s) linear infinite}
+.hc:hover .hc-track{animation-play-state:paused}
+.hc-item{display:block;flex:none;height:240px;aspect-ratio:4/5;overflow:hidden;background:var(--bg-2)}
+.hc-item .ph{width:100%;height:100%;transition:transform .4s,filter .4s;filter:brightness(.9)}
+.hc-item:hover .ph,.hc-item:focus-visible .ph{transform:scale(1.06);filter:none}
+body:not([data-page="accueil"]) .hc{display:none}
+@media (max-width:600px){.hc{margin:0 0 40px}.hc-item{height:170px}}
+@media (prefers-reduced-motion:reduce){.hc-track{animation:none}.hc{overflow-x:auto}}
+@media (prefers-reduced-motion:reduce){.avis-track{animation:none}.avis-strip{overflow-x:auto}}
+.avis-card{flex:0 0 auto;width:min(340px,78vw);background:var(--bg-2);border:1px solid var(--line);padding:24px;display:grid;gap:14px;align-content:start}
+.avis-card .stars{color:var(--amber);letter-spacing:3px;font-size:15px}
+.avis-card q{quotes:none;font-size:15px;line-height:1.6;color:var(--fg)}
+.avis-card footer{all:unset;display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.avis-card footer b{color:var(--fg);font-weight:500}
+.avis-empty{max-width:520px;margin:0 auto;text-align:center;border:1px dashed var(--line);padding:28px 24px;display:grid;gap:14px;justify-items:center}
+.avis-empty p{margin:0;color:var(--muted)}
+@supports (min-height:100svh){body[data-page="accueil"] .hero{min-height:100svh}}
+
+/* PHOTO PLACEHOLDER (grain + teinte) */
+.ph{position:relative;overflow:hidden;background:var(--g);max-width:100%}
+.ph::after{content:"";position:absolute;inset:0;opacity:.3;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* INTRO + MOSAÏQUE */
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-block:40px 24px}
+h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(56px,11vw,168px);line-height:.82;margin:0;letter-spacing:.01em}
+h1 em{font-style:normal;color:var(--amber)}
+.intro-side{max-width:340px;display:grid;gap:14px}
+.intro-side p{margin:0;color:var(--muted)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.tags span{border:1px solid var(--line);padding:4px 9px;color:var(--fg)}
+.mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:clamp(90px,11vw,160px);gap:8px;padding-bottom:64px}
+.mosaic .ph{cursor:pointer;border:0;padding:0;color:inherit;font:inherit;text-align:left}
+.m1{grid-column:span 3;grid-row:span 3}.m2{grid-column:span 2;grid-row:span 2}.m3{grid-column:span 1;grid-row:span 2}
+.m4{grid-column:span 1;grid-row:span 1}.m5{grid-column:span 2;grid-row:span 1}
+@media (max-width:760px){.mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px}.m1{grid-column:span 2;grid-row:span 2}.m2,.m3,.m4,.m5{grid-column:span 1;grid-row:span 1}}
+
+/* HERO PHOTO PLEIN ÉCRAN (façon page de réservation) */
+.hero{position:relative;min-height:min(88vh,880px);display:flex;align-items:flex-end;background:#0b0a09 url(hero.jpg) 50% 52%/cover no-repeat;margin-bottom:56px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,7,6,.86) 0%,rgba(8,7,6,.55) 45%,rgba(8,7,6,.15) 100%),linear-gradient(0deg,rgba(8,7,6,.9) 0%,transparent 45%)}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1320px;margin:0 auto;padding-block:120px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero h1{color:#efe9e1;max-width:9ch}
+.hero-lede{color:rgba(239,233,225,.82);max-width:46ch;font-size:17px;margin:20px 0 28px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-line{display:inline-flex;align-items:center;border:1px solid rgba(239,233,225,.8);color:#efe9e1;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:14px 22px}
+.btn-line:hover{background:#efe9e1;color:#0b0a09}
+.hero-meta{position:absolute;z-index:1;top:20px;right:max(16px,env(safe-area-inset-right,0px));font-family:var(--mono);font-size:11px;color:rgba(239,233,225,.75);display:flex;gap:14px;letter-spacing:.06em}
+@media (max-width:760px){.hero{background-position:58% 45%;min-height:min(92vh,760px)}.hero::before{background:linear-gradient(0deg,rgba(8,7,6,.94) 0%,rgba(8,7,6,.5) 55%,rgba(8,7,6,.2) 100%)}.hero-meta{display:none}}
+
+/* GRILLE PORTFOLIO (même principe que la page portfolio de LJ) */
+#categories{max-width:none;padding-left:max(3vw,16px,env(safe-area-inset-left,0px));padding-right:max(3vw,16px,env(safe-area-inset-right,0px))}
+.cats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:28px 8px;padding-bottom:72px}
+@media (max-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.gal-empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:48px 16px;margin:0}
+@media (max-width:600px){.cats{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 8px}}
+.cat{display:block;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;min-width:0}
+.cat-img{position:relative;aspect-ratio:2/3;max-width:100%;overflow:hidden;background:var(--bg-2)}
+.cat-img .ph{position:absolute;inset:0;transition:transform .4s}
+.cat:hover .cat-img .ph,.cat:focus-visible .cat-img .ph{transform:scale(1.1)}
+.cat h3{font-family:var(--lato);font-weight:700;font-size:clamp(19px,1.7vw,24px);line-height:1.1;letter-spacing:-.05em;color:var(--amber);margin:10px 0 0;animation:slideUp .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 90ms)}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.ph.real::after{display:none}
+.ph.lazy{background:var(--bg-2)}
+
+/* LÉGENDES */
+.cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;background:linear-gradient(transparent,rgba(0,0,0,.55));z-index:1}
+.cap b{font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;line-height:1;letter-spacing:.02em}
+.cap small{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(239,233,225,.75);text-transform:uppercase}
+.play{position:absolute;top:12px;right:12px;z-index:1;font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.55);padding:4px 8px;display:flex;align-items:center;gap:6px}
+.play::before{content:"";border-left:8px solid var(--fg);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.tile:hover .ph,.tile:focus-visible .ph{transform:scale(1.1)}
+.tile .ph{transition:transform .4s}
+
+/* SECTIONS */
+section{border-top:1px solid var(--line);padding-block:72px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
+h2{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(38px,5.5vw,64px);line-height:.95;margin:0 0 14px;text-wrap:balance}
+.sub{color:var(--muted);max-width:60ch;margin:0 0 32px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.head .sub{margin:0}
+
+/* FILTRES + GALERIE */
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{background:none;border:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;cursor:pointer}
+.filters button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.filters button em{font-style:normal;opacity:.6;margin-left:4px}
+html,body{overflow-x:clip}
+.tile{margin:0;display:block;min-width:0;width:100%;background:none;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;text-align:left;overflow:hidden;position:relative}
+/* PAGE CATÉGORIE : bandeau titre sur photo + grille serrée (comme la page Studio de LJ) */
+.view[data-view="galerie"]{padding-top:0}
+.cat-hero{position:relative;height:min(62vh,600px);min-height:360px;display:grid;place-items:center;overflow:hidden;background:#0b0a09}
+.cat-hero>i{position:absolute;inset:-12px;background-size:cover!important;background-position:50% 35%!important;filter:blur(3px) saturate(1.05);transform:scale(1.03)}
+.cat-hero::after{content:"";position:absolute;inset:0;background:rgba(8,7,6,.55)}
+.cat-hero-in{position:relative;z-index:1;text-align:center;padding:90px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.cat-hero h1{font-family:var(--lato);font-weight:700;color:var(--amber);letter-spacing:-.04em;text-transform:none;line-height:1;margin:0;font-size:clamp(64px,12vw,200px);text-shadow:0 6px 40px rgba(0,0,0,.45)}
+.cat-hero .back{position:absolute;z-index:2;left:max(16px,env(safe-area-inset-left,0px));bottom:20px;margin:0}
+#galerie{padding-block:6px 64px;border-top:0}
+.gal-hint{text-align:center;color:var(--muted);font-size:14px;margin:22px auto 18px}
+.subtabs{margin-top:0!important}
+.feature{margin:32px auto 40px!important;width:min(100%,1100px,calc(68vh * 16 / 9))!important}
+.subtabs{display:flex;justify-content:center;gap:0;margin:32px auto 26px;width:max-content;max-width:100%;border:1px solid var(--line);background:var(--bg-2)}
+.subtabs button{background:none;border:0;color:var(--muted);font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding:14px 28px;cursor:pointer}
+.subtabs button[aria-selected="true"]{background:var(--amber);color:#1a120a}
+.subtabs button:not([aria-selected="true"]):hover{color:var(--fg)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+@media (max-width:600px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}}
+.gallery .tile{width:100%;min-width:0}
+.gallery .tile .ph{aspect-ratio:4/5!important;width:100%;max-width:100%}
+.catnav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.catnav a{display:inline-flex;align-items:center;gap:14px;text-decoration:none;color:var(--fg);min-width:0}
+.catnav a span{display:grid;gap:2px}
+.catnav small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.catnav b{font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,34px);text-transform:uppercase;line-height:1;transition:color .2s}
+.catnav i{font-style:normal;display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);font-size:20px;flex:none;transition:border-color .2s,background .2s,color .2s}
+.catnav a:hover b{color:var(--amber)}
+.catnav a:hover i{background:var(--amber);border-color:var(--amber);color:#1a120a}
+.catnav .nx{margin-left:auto;text-align:right}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:18px}
+
+/* VISIONNEUSE */
+.lb{position:fixed;inset:0;z-index:20;background:rgba(8,7,6,.96);display:grid;grid-template-rows:auto 1fr auto;padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(16px,env(safe-area-inset-left,0px));gap:14px}
+.lb-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lb-stage{display:flex;align-items:center;justify-content:center;gap:12px;min-height:0}
+.lb-img{height:100%;max-height:78vh;aspect-ratio:var(--r,4/5);max-width:calc(100% - 110px)}
+.lb-nav,.lb-close{background:none;border:1px solid var(--line);color:var(--fg);width:44px;height:44px;cursor:pointer;font-size:18px;flex:none}
+.lb-nav:hover,.lb-close:hover{border-color:var(--fg)}
+.lb-info{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;max-width:1100px;width:100%;margin:0 auto}
+.lb-info h3{font-family:var(--display);font-weight:700;font-size:32px;text-transform:uppercase;margin:0;line-height:1}
+.lb-info p{margin:0;color:var(--muted);font-size:14px}
+.lb-info .spec{font-family:var(--mono);font-size:12px;color:var(--amber)}
+@media (max-width:600px){.lb-img{max-width:100%;height:auto;width:100%;max-height:62vh}.lb-stage{flex-wrap:wrap}.lb-stage .lb-nav{order:2}}
+
+/* À PROPOS */
+.about{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:center}
+@media (max-width:760px){.about{grid-template-columns:1fr}}
+.about .ph{aspect-ratio:4/5}
+.about p{color:var(--muted);max-width:56ch}
+.stats{display:flex;gap:36px;flex-wrap:wrap;margin-top:24px}
+.stats div{display:grid}
+.stats b{font-family:var(--display);font-size:44px;line-height:1;font-weight:900}
+.stats span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+/* SÉANCES (liste type planche contact) */
+.rates{border-top:1px solid var(--line)}
+.rate{display:grid;grid-template-columns:1.1fr 2fr auto;gap:20px;align-items:baseline;padding-block:20px;border-bottom:1px solid var(--line)}
+.rate h3{font-family:var(--display);font-weight:700;font-size:28px;text-transform:uppercase;margin:0;line-height:1}
+.rate p{margin:0;color:var(--muted);font-size:14px}
+.rate .price{font-family:var(--mono);color:var(--amber);white-space:nowrap}
+.rate-group{grid-template-columns:1.1fr 2fr}
+.rates-note{text-align:right;color:var(--muted);font-size:16px;margin:-16px 0 12px}
+.rates-note span{color:var(--amber);font-weight:700;margin-right:2px}
+@media (max-width:640px){.rates-note{text-align:left;margin-top:-20px}}
+.rate-link{color:inherit;text-decoration:underline;text-decoration-color:var(--amber);text-decoration-thickness:2px;text-underline-offset:5px;transition:color .2s}
+.rate-link:hover,.rate-link:focus-visible{color:var(--amber)}
+.packs{display:grid;gap:0;min-width:0}
+.pk{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-block:10px;border-bottom:1px dashed var(--line)}
+.pk:first-child{padding-top:0}.pk:last-child{border-bottom:0;padding-bottom:0}
+.pk b{display:block;font-weight:700;font-size:16px;color:var(--fg);margin-bottom:2px}
+.pk p{margin:0;color:var(--muted);font-size:14px}
+.pk-tag{font-weight:500;font-size:14px;color:var(--muted);margin-left:8px}
+.pk-price{font-weight:500;font-size:15px;margin-left:12px}
+.pk-link{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.pk-link:hover{color:var(--fg)}
+.pk-nodot{margin-left:4px}.pk-nodot::before{content:none!important}
+.pk-tag::before{content:"· ";color:var(--line)}
+@media (max-width:640px){.rate-group{grid-template-columns:1fr}}
+@media (max-width:640px){.rate{grid-template-columns:1fr auto}.rate p{grid-column:1/-1;grid-row:2}}
+
+/* RÉSERVATION */
+.book{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+@media (max-width:860px){.book{grid-template-columns:1fr}}
+form{display:grid;gap:24px;min-width:0}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:10px;min-width:0}
+legend,label.l{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding:0;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;border:1px solid var(--line);padding:9px 14px;font-size:14px;cursor:pointer;background:var(--bg-2)}
+.chip input:checked+span{border-color:var(--amber);color:var(--amber)}
+.chip input:focus-visible+span{outline:2px solid var(--amber);outline-offset:2px}
+.chip input:disabled+span{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+input[type=text],input[type=tel],input[type=date],input[type=time],textarea{width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--fg);font:inherit;font-size:15px;padding:12px 14px}
+input:focus,textarea:focus,select:focus{border-color:var(--amber);outline:none}
+select{width:100%;background:var(--bg-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23d8b98a' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 14px center;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:15px;padding:12px 40px 12px 14px;appearance:none;-webkit-appearance:none;border-radius:0;cursor:pointer}
+select option{background:var(--bg-2);color:var(--fg)}
+select option:disabled{color:var(--muted)}
+textarea{min-height:96px;resize:vertical}
+.err{color:var(--rec);font-size:14px;margin:0}
+.ok{color:var(--amber);font-size:14px;margin:10px 0 0}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:#1a120a;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:15px 22px;border:0;cursor:pointer;font-family:var(--body)}
+.btn:hover{background:var(--fg)}
+.side{display:grid;gap:24px;align-content:start}
+.card{border:1px solid var(--line);padding:24px;background:var(--bg-2)}
+.card h4{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin:0 0 14px;font-weight:500}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:14px;margin:0}
+.hours dt{color:var(--muted)}.hours dd{margin:0;font-variant-numeric:tabular-nums}
+.recap{white-space:pre-wrap;font-family:var(--mono);font-size:13px;background:var(--bg);border:1px dashed var(--amber);padding:16px;margin:0 0 14px;overflow-wrap:anywhere}
+.ghost{background:none;border:1px solid var(--fg);color:var(--fg);font:inherit;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;cursor:pointer}
+.ghost:hover{background:var(--fg);color:var(--bg)}
+
+/* FAQ */
+details{border-bottom:1px solid var(--line);padding-block:18px;max-width:780px}
+.faq-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr;gap:36px}}
+.faq-list{min-width:0}
+.faq-ask{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)}
+.faq-ask form{display:grid;gap:16px}
+.ask-sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+.faq-ask textarea{min-height:130px}
+.ask-mail{color:var(--fg);user-select:all;overflow-wrap:anywhere}
+summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);color:var(--amber)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0;max-width:65ch}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding-block:48px}
+.foot{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+.foot h4{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:500}
+.foot p{margin:0;font-size:15px}
+.big{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(48px,13vw,190px);line-height:.8;color:var(--bg-2);-webkit-text-stroke:1px var(--line);margin:40px 0 0;white-space:nowrap;overflow:hidden}
+.copy{color:var(--muted);font-size:13px;margin-top:24px}
+
+</style>
+
+<header id="hdr">
+  <div class="nav">
+    <a class="logo" href="#accueil">Vendeiro<span>.</span>Visions</a>
+    <nav class="links" aria-label="Menu principal">
+      <a href="#accueil">Accueil</a>
+      <a href="#reservation">Réservation</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="socials">
+      <a href="https://www.instagram.com/vendeirovisions/" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://www.tiktok.com/@vendeirovisions" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M14 3h3c.3 2 1.6 3.4 4 3.6v3.1c-1.5 0-2.9-.4-4-1.1v6.6A6.2 6.2 0 1 1 10.8 9v3.2a3 3 0 1 0 3.2 3V3z"/></svg></a>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mnav"><span></span><span></span><b>Menu</b></button>
+  </div>
+</header>
+<div class="mnav" id="mnav" hidden>
+  <nav aria-label="Menu mobile">
+    <a href="#accueil">Accueil</a>
+    <a href="#reservation">Réservation</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="mnav-foot">
+    <a href="https://www.instagram.com/vendeirovisions/" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://www.tiktok.com/@vendeirovisions" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M14 3h3c.3 2 1.6 3.4 4 3.6v3.1c-1.5 0-2.9-.4-4-1.1v6.6A6.2 6.2 0 1 1 10.8 9v3.2a3 3 0 1 0 3.2 3V3z"/></svg></a>
+  </div>
+</div>
+
+<main id="top">
+<div class="view" data-view="accueil">
+  <div class="hero">
+    <div class="hero-in">
+      <h1>Réserve ton<br><em>shooting.</em></h1>
+      <p class="hero-lede">Crée les images que tu ne te lasseras jamais de regarder. Lifestyle, mariage, sport, entreprise, anniversaire ou studio : réserve ta séance et donne vie à ta vision.</p>
+      <div class="hero-btns">
+        <a class="btn" href="#reservation">Réserver une séance</a>
+        <a class="btn-line" href="#portfolio">Voir le portfolio</a>
+      </div>
+    </div>
+  </div>
+  <section class="avis" id="avis" aria-labelledby="avisTitle" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Avis clients</p>
+      <h2 id="avisTitle">Ils ont shooté avec moi</h2>
+    </div>
+    <div class="avis-strip" id="avisStrip"><div class="avis-track" id="avisTrack"></div></div>
+  </section>
+</div>
+
+<div class="view" data-view="portfolio" hidden>
+  <div class="wrap" id="categories">
+    <div class="page-head"><h2>Portfolio</h2></div>
+    <div class="cats" id="cats"></div>
+  </div>
+</div>
+
+<div class="view" data-view="galerie" hidden>
+  <div class="cat-hero" id="catHero">
+    <i id="catBgImg" aria-hidden="true"></i>
+    <div class="cat-hero-in"><h1 id="galTitle">Galerie</h1></div>
+    <a class="back" href="#portfolio">← Portfolio</a>
+    <div class="filters" id="filters" hidden></div>
+  </div>
+  <section id="galerie">
+    <div class="wrap">
+      <p class="gal-hint">Clique sur une image pour l'ouvrir en grand.</p>
+      <div class="subtabs" id="subTabs" role="tablist" aria-label="Photos ou vidéo" hidden>
+        <button type="button" role="tab" data-s="photos" aria-selected="true">Photos</button>
+        <button type="button" role="tab" data-s="video" aria-selected="false">Vidéo</button>
+      </div>
+      <div class="feature" id="feature" hidden><video id="featVid" controls playsinline preload="metadata"></video></div>
+    </div>
+    <div class="reel" id="reel">
+      <div class="gallery" id="gallery"></div>
+    </div>
+    <div class="wrap">
+      <p class="count" id="count" hidden></p>
+      <nav class="catnav" id="catNav" aria-label="Autres portfolios"></nav>
+    </div>
+  </section>
+</div>
+
+<div class="view" data-view="reservation" hidden>
+  <section id="seances">
+    <div class="wrap">
+      <p class="eyebrow">Séances</p>
+      <h2>Tarifs</h2>
+      <p class="sub">Préparation de l'idée, prise de vue et retouche incluses. Photos livrées en HD dans une galerie en ligne.</p>
+      <p class="rates-note">Des frais de déplacement peuvent s'ajouter selon la distance.</p>
+      <div class="rates">
+        <div class="rate rate-group"><h3><a class="rate-link" href="#portfolio-lifestyle">Lifestyle</a> / <a class="rate-link" href="#portfolio-anniversaire">Anniversaire</a></h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance FLASH <span class="pk-tag">Solo (&nbsp;10 photos + 2 offertes&nbsp;)</span></b></div><span class="price">60 € / 30 min</span></div>
+            <div class="pk"><div><b>Séance CLASSIQUE <span class="pk-tag">Solo ou duo (&nbsp;30 photos + 5 offertes&nbsp;)</span></b></div><span class="price">100 € / heure</span></div>
+            <div class="pk"><div><b>Séance GROUPE <span class="pk-tag">4 ou plus (&nbsp;Illimité&nbsp;)</span></b></div><span class="price">180 € / heure</span></div>
+          </div>
+        </div>
+        <div class="rate rate-group"><h3><a class="rate-link" href="#portfolio-mariage">Mariage</a></h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance PHOTO WEDDING <span class="pk-tag">(&nbsp;Photos illimitées&nbsp;)</span></b></div><span class="price">450 € / journée</span></div>
+            <div class="pk"><div><b>Séance VIDÉO WEDDING <span class="pk-tag">(&nbsp;<a class="pk-link" href="#portfolio-mariage-video">Film</a> entre 3 à 5 min&nbsp;)</span></b></div><span class="price">600 € / journée</span></div>
+          </div>
+        </div>
+        <div class="rate rate-group"><h3><a class="rate-link" href="#portfolio-sport">Sport</a></h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance MATCH 1 OU 2 JOUEURS <span class="pk-tag pk-nodot">20 photos + 2 offertes (&nbsp;Foot, basket…&nbsp;)</span></b></div><span class="price">70 € / match entier</span></div>
+            <div class="pk"><div><b>Séance MATCH ÉQUIPE ENTIÈRE <span class="pk-tag pk-nodot">10 photos par joueur + 2 offertes (&nbsp;10 × le nombre de joueurs&nbsp;)</span></b></div><span class="price">120 € / match entier</span></div>
+          </div>
+        </div>
+        <div class="rate rate-group"><h3><a class="rate-link" href="#portfolio-entreprise">Entreprise</a></h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance BUSINESS <span class="pk-tag pk-nodot">(&nbsp;Restaurant, agence de location, immobilier, etc.&nbsp;)</span></b></div><span class="price">110 € / heure</span></div>
+          </div>
+        </div>
+        <div class="rate rate-group"><h3><a class="rate-link" href="#portfolio-studio">Studio</a></h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance STUDIO <span class="pk-tag pk-nodot">(&nbsp;Studio non inclus&nbsp;)</span></b></div><span class="price">120 € / heure</span></div>
+            <div class="pk"><div><b>Séance STUDIO <span class="pk-tag pk-nodot">(&nbsp;Studio inclus&nbsp;)</span></b></div><span class="price">180 € / heure</span></div>
+          </div>
+        </div>
+        <div class="rate rate-group"><h3>Vidéo</h3>
+          <div class="packs">
+            <div class="pk"><div><b>Séance VIDÉO LIFESTYLE</b></div><span class="price">200 €</span></div>
+            <div class="pk"><div><b>Séance VIDÉO SOIRÉE / ANNIVERSAIRE / ÉVÉNEMENT</b></div><span class="price">300 €</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reservation">
+    <div class="wrap">
+      <p class="eyebrow">Réservation</p>
+      <h2>Bloque ta date</h2>
+      <p class="sub">Remplis ta demande, puis envoie-la en message sur Instagram. Un acompte de 30 % confirme la réservation.</p>
+      <div class="book">
+        <form id="f" novalidate>
+          <fieldset><legend>Séance</legend><div class="chips" id="types"></div></fieldset>
+          <div class="row">
+            <div><label class="l" for="date">Date souhaitée</label><input type="date" id="date"></div>
+            <div><label class="l" for="lieu">Lieu</label><input type="text" id="lieu" placeholder="Ex. Place Vendôme, Paris 11e…"></div>
+          </div>
+          <div><label class="l" for="slot">Heure souhaitée</label><input type="time" id="slot"></div>
+          <div><label class="l" for="nom">Prénom</label><input type="text" id="nom" autocomplete="given-name"></div>
+          <div><label class="l" for="msg">Ta vision</label><textarea id="msg" placeholder="Ambiance, une photo du portfolio qui t'inspire, nombre de personnes…"></textarea></div>
+          <p class="err" id="err" hidden></p>
+          <div><button class="btn wa-btn" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Envoyer ma demande sur Instagram</button><p class="wa-hint">Ta demande est copiée automatiquement : colle-la dans la conversation Instagram qui s'ouvre.</p></div>
+        </form>
+        <aside class="side">
+          <div class="card" id="recapCard" hidden>
+            <h4>Ta demande</h4>
+            <pre class="recap" id="recap"></pre>
+            <div class="recap-btns"><a class="btn wa-btn" id="waSend" href="https://ig.me/m/vendeirovisions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Envoyer sur Instagram</a><button class="ghost" type="button" id="copy">Copier le message</button></div>
+            <p class="ok" id="copied" hidden></p>
+            <p class="wa-hint">Le bouton copie ta demande et ouvre la conversation Instagram : il ne reste qu'à coller et envoyer.</p>
+          </div>
+          <div class="card">
+            <h4>Déplacement</h4>
+            <p style="margin:0;color:var(--muted);font-size:14px">Je me déplace là où se passe ta séance. Selon le lieu, des frais de déplacement peuvent s'ajouter : ils te sont toujours annoncés avant la confirmation de ta réservation.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="view" data-view="faq" hidden>
+  <section id="faq">
+    <div class="wrap">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions fréquentes</h2>
+      <div class="faq-grid">
+        <div class="faq-list">
+          <details><summary>Comment je confirme ma réservation ?</summary><p>Après ta demande, tu reçois une confirmation avec le lien de paiement de l'acompte (30 %). La date est bloquée dès réception.</p></details>
+          <details><summary>Je peux annuler ou décaler ?</summary><p>Oui, une fois gratuitement jusqu'à 72 h avant la séance. En dessous, l'acompte est conservé.</p></details>
+          <details><summary>Quand est-ce que je reçois mes photos ?</summary><p>Entre 7 et 14 jours selon la séance, dans une galerie privée où tu peux tout télécharger en HD.</p></details>
+          <details><summary>Je n'ai jamais posé, c'est grave ?</summary><p>Pas du tout. Je te guide sur les poses et la tenue avant et pendant la séance.</p></details>
+        </div>
+        <aside class="card faq-ask" aria-labelledby="askTitle">
+          <h4 id="askTitle">Une demande particulière ?</h4>
+          <p class="ask-sub">Une idée de séance, un lieu, une date précise ou une question qui n'est pas dans la FAQ : écris-moi.</p>
+          <form id="askForm" novalidate>
+            <div><label class="l" for="askName">Prénom</label><input type="text" id="askName" autocomplete="given-name"></div>
+            <div><label class="l" for="askMsg">Ton message</label><textarea id="askMsg" placeholder="Explique-moi ta demande…"></textarea></div>
+            <p class="err" id="askErr" hidden></p>
+            <button class="btn wa-btn" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Envoyer par e-mail</button>
+            <p class="wa-hint" id="askHint">Ta messagerie s'ouvre avec le message prêt. Tu peux aussi écrire directement à <b class="ask-mail">vendeirovisions@gmail.com</b>.</p>
+          </form>
+        </aside>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="view" data-view="contact" hidden>
+  <section id="contact">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2>Parlons de ton projet</h2>
+      <p class="sub">Pour une séance, un devis ou une collaboration, écris-moi directement. Réponse sous 24 h.</p>
+      <div class="contact-grid">
+        <div class="card"><h4>Message</h4><p class="big-line"><a class="wa igdm" href="https://ig.me/m/vendeirovisions" data-msg="Bonjour Vendeiro, j'aimerais réserver un shooting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Écrire sur Instagram</span></a></p><p class="wa-note">Le message de réservation est copié : colle-le dans la conversation.</p></div>
+        <div class="card"><h4>E-mail</h4><p class="big-line">vendeirovisions@gmail.com</p></div>
+        <div class="card"><h4>Réseaux</h4>
+        <div class="soc-icons">
+          <a href="https://www.instagram.com/vendeirovisions/" aria-label="Instagram @vendeirovisions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+          <a href="https://www.tiktok.com/@vendeirovisions" aria-label="TikTok @vendeirovisions"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h3c.3 2 1.6 3.4 4 3.6v3.1c-1.5 0-2.9-.4-4-1.1v6.6A6.2 6.2 0 1 1 10.8 9v3.2a3 3 0 1 0 3.2 3V3z"/></svg><span>TikTok</span></a>
+        </div></div>
+      </div>
+      <p style="margin-top:32px"><a class="btn" href="#reservation">Réserver une séance</a></p>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer id="pied">
+  <div class="hc" aria-label="Aperçu du portfolio"><div class="hc-track" id="hcTrack"></div></div>
+  <div class="wrap">
+    <div class="foot">
+      <div class="nl">
+        <h4>Newsletter</h4>
+        <p class="nl-text">Inscris-toi pour recevoir les dates dispo, les offres et les nouveaux projets en premier.</p>
+        <form id="nlForm" novalidate>
+          <label class="sr" for="nlEmail">Adresse e-mail</label>
+          <input type="email" id="nlEmail" placeholder="Ton adresse e-mail" autocomplete="email">
+          <button class="btn" type="submit" id="nlBtn">Je m'inscris</button>
+        </form>
+        <p class="nl-msg" id="nlMsg" role="status"></p>
+        <p class="nl-small">Pas de spam. Désinscription en un clic.</p>
+      </div>
+      <div>
+        <h4>Suis-nous</h4>
+        <div class="soc-icons">
+          <a href="https://www.instagram.com/vendeirovisions/" aria-label="Instagram @vendeirovisions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+          <a href="https://www.tiktok.com/@vendeirovisions" aria-label="TikTok @vendeirovisions"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h3c.3 2 1.6 3.4 4 3.6v3.1c-1.5 0-2.9-.4-4-1.1v6.6A6.2 6.2 0 1 1 10.8 9v3.2a3 3 0 1 0 3.2 3V3z"/></svg><span>TikTok</span></a>
+        </div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p><a class="wa igdm" href="https://ig.me/m/vendeirovisions" data-msg="Bonjour Vendeiro, j'aimerais réserver un shooting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Écrire sur Instagram</span></a></p>
+        <p class="wa-note">@vendeirovisions</p>
+        <p>vendeirovisions@gmail.com</p>
+      </div>
+    </div>
+    <p class="big" aria-hidden="true">Vendeiro Visions</p>
+    <p class="copy">© 2026 Vendeiro Visions</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Visionneuse">
+  <div class="lb-top"><span id="lbCount"></span><button class="lb-close" id="lbClose" aria-label="Fermer">✕</button></div>
+  <div class="lb-stage">
+    <button class="lb-nav" id="lbPrev" aria-label="Image précédente">←</button>
+    <div class="ph lb-img" id="lbImg"></div>
+    <button class="lb-nav" id="lbNext" aria-label="Image suivante">→</button>
+  </div>
+  <div class="lb-info">
+    <div><h3 id="lbTitle"></h3><p id="lbMeta"></p></div>
+    <span class="spec" id="lbSpec"></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Menu
+  const hdr=document.getElementById("hdr"), burger=document.getElementById("burger"), mnav=document.getElementById("mnav");
+  const onScroll=()=>hdr.classList.toggle("solid",scrollY>40||!mnav.hidden||!["accueil","galerie"].includes(document.body.dataset.page));
+  addEventListener("scroll",onScroll,{passive:true});onScroll();
+  const setMenu=open=>{mnav.hidden=!open;burger.setAttribute("aria-expanded",open);burger.querySelector("b").textContent=open?"Fermer":"Menu";document.body.style.overflow=open?"hidden":"";onScroll()};
+  burger.addEventListener("click",()=>setMenu(mnav.hidden));
+  mnav.addEventListener("click",e=>{if(e.target.closest("a[href^='#']"))setMenu(false)});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!mnav.hidden)setMenu(false)});
+  // Une page par entrée du menu
+  const SLUG=c=>c.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-");
+  function route(){
+    let h=(location.hash||"").slice(1)||"accueil"; const wantVid=/-video$/.test(h); if(wantVid)h=h.replace(/-video$/,"");
+    let page=h, cat=null;
+    if(h.startsWith("portfolio-")){cat=CATS.find(k=>"portfolio-"+SLUG(k.c)===h);page=cat?"galerie":"portfolio"}
+    if(!document.querySelector(`.view[data-view="${page}"]`))page="accueil";
+    document.querySelectorAll(".view").forEach(v=>v.hidden=v.dataset.view!==page);
+    const fvv=document.getElementById("featVid");if(fvv)fvv.pause();
+    document.body.dataset.page=page;
+    if(cat){if(cur!==cat.c)sub="photos";if(wantVid)sub="video";cur=cat.c;render();document.getElementById("galTitle").textContent=cat.c}
+    const navKey=page==="galerie"?"portfolio":page;
+    document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+navKey));
+    window.scrollTo(0,0);onScroll();
+  }
+
+  // Remplace chaque "g" par une vraie photo : "url(photo.jpg) center/cover"
+  const W=[
+    {id:"ls01",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-01.jpg) 50% 50%/cover"},
+    {id:"ls16",t:"",c:"Lifestyle",l:"",s:"",r:"1153/2048",g:"url(photos/lifestyle-16.jpg) 50% 50%/cover"},
+    {id:"ls17",t:"",c:"Lifestyle",l:"",s:"",r:"1153/2048",g:"url(photos/lifestyle-17.jpg) 50% 50%/cover"},
+    {id:"ls18",t:"",c:"Lifestyle",l:"",s:"",r:"1152/2048",g:"url(photos/lifestyle-18.jpg) 50% 50%/cover"},
+    {id:"ls13",t:"",c:"Lifestyle",l:"",s:"",r:"1449/2576",g:"url(photos/lifestyle-13.jpg) 50% 50%/cover"},
+    {id:"ls11",t:"",c:"Lifestyle",l:"",s:"",r:"1449/2576",g:"url(photos/lifestyle-11.jpg) 50% 50%/cover"},
+    {id:"ls14",t:"",c:"Lifestyle",l:"",s:"",r:"1153/2048",g:"url(photos/lifestyle-14.jpg) 50% 50%/cover"},
+    {id:"ls15",t:"",c:"Lifestyle",l:"",s:"",r:"1153/1537",g:"url(photos/lifestyle-15.jpg) 50% 50%/cover"},
+    {id:"ls02",t:"",c:"Lifestyle",l:"",s:"",r:"972/1728",g:"url(photos/lifestyle-02.jpg) 50% 50%/cover"},
+    {id:"ls03",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-03.jpg) 50% 50%/cover"},
+    {id:"ls04",t:"",c:"Lifestyle",l:"",s:"",r:"1152/2048",g:"url(photos/lifestyle-04.jpg) 50% 50%/cover"},
+    {id:"ls05",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-05.jpg) 50% 50%/cover"},
+    {id:"ls06",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-06.jpg) 50% 50%/cover"},
+    {id:"ls07",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-07.jpg) 50% 50%/cover"},
+    {id:"ls08",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-08.jpg) 50% 50%/cover"},
+    {id:"ls09",t:"",c:"Lifestyle",l:"",s:"",r:"1449/2576",g:"url(photos/lifestyle-09.jpg) 50% 50%/cover"},
+    {id:"ls10",t:"",c:"Lifestyle",l:"",s:"",r:"1717/2576",g:"url(photos/lifestyle-10.jpg) 50% 50%/cover"},
+    {id:"ls12",t:"",c:"Lifestyle",l:"",s:"",r:"1449/2576",g:"url(photos/lifestyle-12.jpg) 50% 50%/cover"},
+    {id:"ls19",t:"",c:"Lifestyle",l:"",s:"",r:"1153/2048",g:"url(photos/lifestyle-19.jpg) 50% 50%/cover"},
+    {id:"ls20",t:"",c:"Lifestyle",l:"",s:"",r:"1153/2048",g:"url(photos/lifestyle-20.jpg) 50% 50%/cover"},
+    {id:"ls21",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-21.jpg) 50% 50%/cover"},
+    {id:"ls22",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-22.jpg) 50% 50%/cover"},
+    {id:"ls23",t:"",c:"Lifestyle",l:"",s:"",r:"1151/2047",g:"url(photos/lifestyle-23.jpg) 50% 50%/cover"},
+    {id:"st06",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-06.jpg) 50% 50%/cover"},
+    {id:"st07",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-07.jpg) 50% 50%/cover"},
+    {id:"st08",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-08.jpg) 50% 50%/cover"},
+    {id:"st09",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-09.jpg) 50% 50%/cover"},
+    {id:"st10",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-10.jpg) 50% 50%/cover"},
+    {id:"st12",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-12.jpg) 50% 50%/cover"},
+    {id:"st11",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-11.jpg) 50% 50%/cover"},
+    {id:"st13",t:"",c:"Studio",l:"",s:"",r:"1151/2047",g:"url(photos/studio-13.jpg) 50% 50%/cover"},
+    {id:"st14",t:"",c:"Studio",l:"",s:"",r:"1151/2047",g:"url(photos/studio-14.jpg) 50% 50%/cover"},
+    {id:"st15",t:"",c:"Studio",l:"",s:"",r:"1151/2047",g:"url(photos/studio-15.jpg) 50% 50%/cover"},
+    {id:"st16",t:"",c:"Studio",l:"",s:"",r:"1151/2047",g:"url(photos/studio-16.jpg) 50% 50%/cover"},
+    {id:"st02",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-02.jpg) 50% 50%/cover"},
+    {id:"st03",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-03.jpg) 50% 50%/cover"},
+    {id:"st04",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-04.jpg) 50% 50%/cover"},
+    {id:"st05",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-05.jpg) 50% 50%/cover"},
+    {id:"st17",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-17.jpg) 50% 50%/cover"},
+    {id:"st18",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-18.jpg) 50% 50%/cover"},
+    {id:"st19",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-19.jpg) 50% 50%/cover"},
+    {id:"st20",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-20.jpg) 50% 50%/cover"},
+    {id:"st21",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-21.jpg) 50% 50%/cover"},
+    {id:"st22",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-22.jpg) 50% 50%/cover"},
+    {id:"st23",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-23.jpg) 50% 50%/cover"},
+    {id:"st24",t:"",c:"Studio",l:"",s:"",r:"1152/2048",g:"url(photos/studio-24.jpg) 50% 50%/cover"},
+    {id:"mr-film",t:"",c:"Mariage",l:"",s:"",r:"16/9",g:"url(videos/mariage-teaser.jpg) 50% 50%/cover",video:"videos/mariage-teaser.mp4",v:"0:15",feature:true},
+    {id:"mr01",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-01.jpg) 50% 50%/cover"},
+    {id:"mr02",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-02.jpg) 50% 50%/cover"},
+    {id:"mr03",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-03.jpg) 50% 50%/cover"},
+    {id:"mr04",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-04.jpg) 50% 50%/cover"},
+    {id:"mr05",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-05.jpg) 50% 50%/cover"},
+    {id:"mr06",t:"",c:"Mariage",l:"",s:"",r:"1153/2048",g:"url(photos/mariage-06.jpg) 50% 50%/cover"},
+    {id:"sp19",t:"",c:"Sport",l:"",s:"",r:"1152/2048",g:"url(photos/sport-19.jpg) 50% 50%/cover"},
+    {id:"sp18",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-18.jpg) 50% 50%/cover"},
+    {id:"sp17",t:"",c:"Sport",l:"",s:"",r:"1152/2048",g:"url(photos/sport-17.jpg) 50% 50%/cover"},
+    {id:"sp16",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-16.jpg) 50% 50%/cover"},
+    {id:"sp15",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-15.jpg) 50% 50%/cover"},
+    {id:"sp14",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-14.jpg) 50% 50%/cover"},
+    {id:"sp13",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-13.jpg) 50% 50%/cover"},
+    {id:"sp12",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-12.jpg) 50% 50%/cover"},
+    {id:"sp11",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-11.jpg) 50% 50%/cover"},
+    {id:"sp08",t:"",c:"Sport",l:"",s:"",r:"1153/2048",g:"url(photos/sport-08.jpg) 50% 50%/cover"},
+    {id:"sp05",t:"",c:"Sport",l:"",s:"",r:"1152/2048",g:"url(photos/sport-05.jpg) 50% 50%/cover"},
+    {id:"sp03",t:"",c:"Sport",l:"",s:"",r:"1152/2048",g:"url(photos/sport-03.jpg) 50% 50%/cover"},
+    {id:"sp01",t:"",c:"Sport",l:"",s:"",r:"1152/2048",g:"url(photos/sport-01.jpg) 50% 50%/cover"},
+    {id:"en01",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-01.jpg) 50% 50%/cover"},
+    {id:"en02",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-02.jpg) 50% 50%/cover"},
+    {id:"en03",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-03.jpg) 50% 50%/cover"},
+    {id:"en04",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-04.jpg) 50% 50%/cover"},
+    {id:"en05",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-05.jpg) 50% 50%/cover"},
+    {id:"en06",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-06.jpg) 50% 50%/cover"},
+    {id:"en07",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-07.jpg) 50% 50%/cover"},
+    {id:"en08",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-08.jpg) 50% 50%/cover"},
+    {id:"en09",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-09.jpg) 50% 50%/cover"},
+    {id:"en10",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-10.jpg) 50% 50%/cover"},
+    {id:"en11",t:"",c:"Entreprise",l:"",s:"",r:"1153/2048",g:"url(photos/entreprise-11.jpg) 50% 50%/cover"},
+    {id:"en12",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-12.jpg) 50% 50%/cover"},
+    {id:"en13",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-13.jpg) 50% 50%/cover"},
+    {id:"en14",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-14.jpg) 50% 50%/cover"},
+    {id:"en15",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-15.jpg) 50% 50%/cover"},
+    {id:"en16",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-16.jpg) 50% 50%/cover"},
+    {id:"en17",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-17.jpg) 50% 50%/cover"},
+    {id:"en18",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-18.jpg) 50% 50%/cover"},
+    {id:"en19",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-19.jpg) 50% 50%/cover"},
+    {id:"en20",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-20.jpg) 50% 50%/cover"},
+    {id:"en21",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-21.jpg) 50% 50%/cover"},
+    {id:"en22",t:"",c:"Entreprise",l:"",s:"",r:"1152/2048",g:"url(photos/entreprise-22.jpg) 50% 50%/cover"},
+    {id:"mu04",t:"",c:"Musique",l:"",s:"",r:"1449/2576",g:"url(photos/musique-04.jpg) 50% 50%/cover"},
+    {id:"mu05",t:"",c:"Musique",l:"",s:"",r:"1449/2576",g:"url(photos/musique-05.jpg) 50% 50%/cover"},
+    {id:"mu06",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-06.jpg) 50% 50%/cover"},
+    {id:"mu07",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-07.jpg) 50% 50%/cover"},
+    {id:"mu08",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-08.jpg) 50% 50%/cover"},
+    {id:"mu09",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-09.jpg) 50% 50%/cover"},
+    {id:"mu10",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-10.jpg) 50% 50%/cover"},
+    {id:"mu11",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-11.jpg) 50% 50%/cover"},
+    {id:"mu12",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-12.jpg) 50% 50%/cover"},
+    {id:"mu13",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-13.jpg) 50% 50%/cover"},
+    {id:"mu14",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-14.jpg) 50% 50%/cover"},
+    {id:"mu15",t:"",c:"Musique",l:"",s:"",r:"1462/2048",g:"url(photos/musique-15.jpg) 50% 50%/cover"},
+    {id:"mu16",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-16.jpg) 50% 50%/cover"},
+    {id:"mu17",t:"",c:"Musique",l:"",s:"",r:"1365/2048",g:"url(photos/musique-17.jpg) 50% 50%/cover"},
+    {id:"mu18",t:"",c:"Musique",l:"",s:"",r:"1365/2048",g:"url(photos/musique-18.jpg) 50% 50%/cover"},
+    {id:"mu19",t:"",c:"Musique",l:"",s:"",r:"1151/2047",g:"url(photos/musique-19.jpg) 50% 50%/cover"},
+    {id:"mu20",t:"",c:"Musique",l:"",s:"",r:"1365/2048",g:"url(photos/musique-20.jpg) 50% 50%/cover"},
+    {id:"mu21",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-21.jpg) 50% 50%/cover"},
+    {id:"mu22",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-22.jpg) 50% 50%/cover"},
+    {id:"mu23",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-23.jpg) 50% 50%/cover"},
+    {id:"mu24",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-24.jpg) 50% 50%/cover"},
+    {id:"mu25",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-25.jpg) 50% 50%/cover"},
+    {id:"mu26",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-26.jpg) 50% 50%/cover"},
+    {id:"mu27",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-27.jpg) 50% 50%/cover"},
+    {id:"mu28",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-28.jpg) 50% 50%/cover"},
+    {id:"mu29",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-29.jpg) 50% 50%/cover"},
+    {id:"mu30",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-30.jpg) 50% 50%/cover"},
+    {id:"mu31",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-31.jpg) 50% 50%/cover"},
+    {id:"mu32",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-32.jpg) 50% 50%/cover"},
+    {id:"mu33",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-33.jpg) 50% 50%/cover"},
+    {id:"mu34",t:"",c:"Musique",l:"",s:"",r:"2048/1152",g:"url(photos/musique-34.jpg) 50% 50%/cover"},
+    {id:"mu35",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-35.jpg) 50% 50%/cover"},
+    {id:"mu36",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-36.jpg) 50% 50%/cover"},
+    {id:"mu37",t:"",c:"Musique",l:"",s:"",r:"1152/2048",g:"url(photos/musique-37.jpg) 50% 50%/cover"},
+    {id:"an01",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-01.jpg) 50% 50%/cover"},
+    {id:"an02",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-02.jpg) 50% 50%/cover"},
+    {id:"an03",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-03.jpg) 50% 50%/cover"},
+    {id:"an05",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-05.jpg) 50% 50%/cover"},
+    {id:"an06",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-06.jpg) 50% 50%/cover"},
+    {id:"an07",t:"",c:"Anniversaire",l:"",s:"",r:"1153/1537",g:"url(photos/anniversaire-07.jpg) 50% 50%/cover"},
+    {id:"an16",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-16.jpg) 50% 50%/cover"},
+    {id:"an17",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-17.jpg) 50% 50%/cover"},
+    {id:"an18",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-18.jpg) 50% 50%/cover"},
+    {id:"an08",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-08.jpg) 50% 50%/cover"},
+    {id:"an09",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-09.jpg) 50% 50%/cover"},
+    {id:"an10",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-10.jpg) 50% 50%/cover"},
+    {id:"an11",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-11.jpg) 50% 50%/cover"},
+    {id:"an12",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-12.jpg) 50% 50%/cover"},
+    {id:"an13",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-13.jpg) 50% 50%/cover"},
+    {id:"an14",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-14.jpg) 50% 50%/cover"},
+    {id:"an15",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-15.jpg) 50% 50%/cover"},
+    {id:"an19",t:"",c:"Anniversaire",l:"",s:"",r:"1365/2048",g:"url(photos/anniversaire-19.jpg) 50% 50%/cover"},
+    {id:"an20",t:"",c:"Anniversaire",l:"",s:"",r:"1151/2047",g:"url(photos/anniversaire-20.jpg) 50% 50%/cover"},
+    {id:"an21",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-21.jpg) 50% 50%/cover"},
+    {id:"an22",t:"",c:"Anniversaire",l:"",s:"",r:"1365/2048",g:"url(photos/anniversaire-22.jpg) 50% 50%/cover"},
+    {id:"an23",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-23.jpg) 50% 50%/cover"},
+    {id:"an24",t:"",c:"Anniversaire",l:"",s:"",r:"1365/2048",g:"url(photos/anniversaire-24.jpg) 50% 50%/cover"},
+    {id:"an25",t:"",c:"Anniversaire",l:"",s:"",r:"1151/2047",g:"url(photos/anniversaire-25.jpg) 50% 50%/cover"},
+    {id:"an26",t:"",c:"Anniversaire",l:"",s:"",r:"1151/2047",g:"url(photos/anniversaire-26.jpg) 50% 50%/cover"},
+    {id:"an27",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-27.jpg) 50% 50%/cover"},
+    {id:"an28",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-28.jpg) 50% 50%/cover"},
+    {id:"an29",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-29.jpg) 50% 50%/cover"},
+    {id:"an30",t:"",c:"Anniversaire",l:"",s:"",r:"1152/2048",g:"url(photos/anniversaire-30.jpg) 50% 50%/cover"},
+    {id:"an31",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-31.jpg) 50% 50%/cover"},
+    {id:"an32",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-32.jpg) 50% 50%/cover"},
+    {id:"an33",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-33.jpg) 50% 50%/cover"},
+    {id:"an34",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-34.jpg) 50% 50%/cover"},
+    {id:"an35",t:"",c:"Anniversaire",l:"",s:"",r:"1153/2048",g:"url(photos/anniversaire-35.jpg) 50% 50%/cover"},
+  ];
+  const CATS=[
+    {c:"Lifestyle",d:"Portraits & street",cover:"ls01"},
+    {c:"Mariage",d:"Cérémonie & soirée",cover:"mr01"},
+    {c:"Sport",d:"Match, ring & training",cover:"sp16",bg:"sp15"},
+    {c:"Entreprise",d:"Contenu pour les marques",cover:"en16"},
+    {c:"Studio",d:"Portraits & lookbooks",cover:"st07",bg:"st07"},
+    {c:"Anniversaire",d:"Soirées & aftermovies",cover:"an01"},
+    {c:"Musique",d:"Clips, concerts & artistes",cover:"mu13"}
+  ];
+  const EMPTY_G="radial-gradient(ellipse 60% 50% at 50% 40%,#3a2c1e,transparent 70%),linear-gradient(#171513,#0b0a09)";
+  const tile=(w,i,cls)=>`<button class="tile ${cls||""}" data-i="${i}" aria-label="Ouvrir ${w.t||"la photo"}, ${w.c}">
+    <div class="ph${/^url/.test(w.g)?" real lazy":""}" ${/^url/.test(w.g)?`data-g="${TH(w.g)}"`:""} style="${/^url/.test(w.g)?"":"--g:"+w.g+";"}--r:${w.r};${cls?"height:100%;aspect-ratio:auto":""}"></div>
+    ${w.v?`<span class="play">${w.v}</span>`:""}
+    ${w.t?`<span class="cap"><b>${w.t}</b><small>${w.c}${w.l?" · "+w.l:""}</small></span>`:""}</button>`;
+
+  // Vignettes légères pour les grilles (l'original reste pour la visionneuse)
+  const RT=/url\(photos\/(anniversaire-(0[1-9]|1[0-8])|entreprise-(0\d|1[0-2])|lifestyle-(0\d|1\d|20)|mariage-0\d|sport-\d\d|studio-(0\d|1[0-2]))\.jpg/;
+  function TH(g){return RT.test(g)?g.replace("url(photos/","url(thumbs/"):g}
+  const lazyIO="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.style.setProperty("--g",el.dataset.g);el.classList.remove("lazy");lazyIO.unobserve(el)}}),{rootMargin:"400px 0px"}):null;
+  function watchLazy(root){root.querySelectorAll(".ph.lazy").forEach(el=>{if(lazyIO)lazyIO.observe(el);else{el.style.setProperty("--g",el.dataset.g);el.classList.remove("lazy")}})}
+  // Cases catégories
+  const real=g=>/^url/.test(g)?" real":"";
+  document.getElementById("cats").innerHTML=CATS.map((k,i)=>{const cw=W.find(w=>k.cover&&(w.id===k.cover||w.t===k.cover))||W.find(w=>w.c===k.c&&!w.feature), g=cw?cw.g:EMPTY_G;
+    return `<button class="cat" data-c="${k.c}" style="--i:${i}" aria-label="Voir la galerie ${k.c}"><div class="cat-img"><div class="ph${real(g)}" style="--g:${TH(g)}"></div></div><h3>${k.c}</h3></button>`}).join("");
+
+  // Carrousel d'accueil : un mélange de photos de chaque portfolio, clic -> menu des portfolios
+  (function(){
+    const per=3, groups=CATS.map(k=>{const L=W.filter(w=>w.c===k.c&&!w.feature&&!w.video&&/^url\(photos/.test(w.g));
+      const n=Math.min(per,L.length);return Array.from({length:n},(_,j)=>L[Math.floor((j+.5)*L.length/n)])});
+    const mix=[];for(let r=0;r<per;r++)groups.forEach(g=>{if(g[r])mix.push(g[r])});
+    const item=w=>`<a class="hc-item" href="#portfolio" aria-label="Voir le portfolio ${w.c}"><div class="ph real" style="--g:${TH(w.g)}"></div></a>`;
+    const html=mix.map(item).join("");
+    const t=document.getElementById("hcTrack");t.innerHTML=html+html.replace(/<a /g,'<a tabindex="-1" aria-hidden="true" ');
+    t.style.setProperty("--dur",(mix.length*4)+"s");
+  })();
+  // Galerie filtrable
+  const cats=CATS.map(k=>k.c);
+  const fEl=document.getElementById("filters"), gal=document.getElementById("gallery"), cnt=document.getElementById("count");
+  let cur="Tout", visible=[], sub="photos";
+  document.getElementById("subTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.s===sub)return;sub=b.dataset.s;history.replaceState(null,"","#portfolio-"+SLUG(cur)+(sub==="video"?"-video":""));render()});
+  fEl.innerHTML=cats.map(c=>`<button type="button" data-c="${c}" aria-pressed="${c==="Tout"}">${c}</button>`).join("");
+  // Vidéo en qualité d'origine : morceaux lus à la suite (sans recompression)
+  function loadFeature(fv,fw){
+    if(fv.dataset.for===fw.id)return; fv.dataset.for=fw.id;
+    fv.poster=fw.g.match(/url\(([^)]+)\)/)[1];
+    const MS=window.ManagedMediaSource||window.MediaSource, type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
+    if(!fw.hls||!MS||!MS.isTypeSupported(type)){fv.src=fw.video;return}
+    const ms=new MS(); fv.disableRemotePlayback=true; fv.src=URL.createObjectURL(ms);
+    ms.addEventListener("sourceopen",async()=>{
+      try{
+        const sb=ms.addSourceBuffer(type);
+        const files=["init.mp4"].concat(Array.from({length:fw.segs},(_,i)=>"seg"+String(i).padStart(2,"0")+".m4s"));
+        for(const f of files){
+          const buf=await fetch(fw.hls+f).then(r=>{if(!r.ok)throw new Error(f);return r.arrayBuffer()});
+          await new Promise((ok,ko)=>{sb.addEventListener("updateend",ok,{once:true});sb.addEventListener("error",ko,{once:true});sb.appendBuffer(buf)});
+        }
+        ms.endOfStream();
+      }catch(e){fv.src=fw.video}
+    },{once:true});
+  }
+  // Fond de page : fondu entre deux calques
+  let bgCur="", bgFlip=0, userMoved=false;
+  function setBg(g){if(g===bgCur)return;bgCur=g;document.getElementById("catBgImg").style.background=g||"#0b0a09"}
+  // Ligne déroulante : la photo au centre est agrandie
+  function markCenter(){
+    const g=document.getElementById("gallery"); if(!g)return;
+    const mid=g.getBoundingClientRect().left+g.clientWidth/2; let best=null,bd=1e9;
+    g.querySelectorAll(".tile").forEach(t=>{const r=t.getBoundingClientRect();const d=Math.abs(r.left+r.width/2-mid);if(d<bd){bd=d;best=t}});
+    g.querySelectorAll(".tile.is-center").forEach(t=>{if(t!==best)t.classList.remove("is-center")});
+    if(best)best.classList.add("is-center");
+  }
+  function step2(dir){const g=document.getElementById("gallery");const c=g.querySelector(".tile.is-center");const n=c&&(dir>0?c.nextElementSibling:c.previousElementSibling);if(n)centerTile(n)}
+  function centerTile(t){const g=document.getElementById("gallery");g.scrollTo({left:t.offsetLeft+t.offsetWidth/2-g.clientWidth/2})}
+  function render(){
+    visible=W.map((w,i)=>i).filter(i=>(cur==="Tout"||W[i].c===cur)&&!W[i].feature);
+    const fw=W.find(w=>w.feature&&w.c===cur), fbox=document.getElementById("feature"), fv=document.getElementById("featVid");
+    const sb=document.getElementById("subTabs"), reelEl=document.getElementById("reel");
+    if(fw){
+      sb.hidden=false;
+      sb.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===sub));
+      if(sub==="video"){loadFeature(fv,fw);fbox.hidden=false;reelEl.hidden=true}else{fv.pause();fbox.hidden=true;reelEl.hidden=false}
+    }else{sub="photos";sb.hidden=true;fv.pause();fbox.hidden=true;reelEl.hidden=false}
+    gal.innerHTML=visible.length?visible.map(i=>tile(W[i],i)).join(""):'<p class="gal-empty">Les premières réalisations arrivent bientôt.</p>';watchLazy(gal);
+    const ck=CATS.find(k=>k.c===cur), first=(ck&&ck.bg&&W.find(w=>w.id===ck.bg))||(visible.length?W[visible[0]]:null);
+    userMoved=false; setBg(first?first.g:"");
+
+    cnt.textContent=`${visible.length} ${visible.length>1?"projets":"projet"}`;
+    const nav=document.getElementById("catNav"), ci=CATS.findIndex(k=>k.c===cur);
+    if(ci<0){nav.innerHTML="";nav.hidden=true}else{
+      const pv=CATS[(ci-1+CATS.length)%CATS.length].c, nx=CATS[(ci+1)%CATS.length].c;
+      nav.hidden=false;
+      nav.innerHTML=`<a href="#portfolio-${SLUG(pv)}" aria-label="Portfolio précédent : ${pv}"><i aria-hidden="true">←</i><span><small>Précédent</small><b>${pv}</b></span></a><a class="nx" href="#portfolio-${SLUG(nx)}" aria-label="Portfolio suivant : ${nx}"><span><small>Suivant</small><b>${nx}</b></span><i aria-hidden="true">→</i></a>`}
+    fEl.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c===cur));
+  }
+  fEl.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(cur!==b.dataset.c)sub="photos";cur=b.dataset.c;render()});
+  render();
+  document.getElementById("cats").addEventListener("click",e=>{const b=e.target.closest(".cat");if(!b)return;location.hash="portfolio-"+SLUG(b.dataset.c)});
+  fEl.addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.c==="Tout")return;history.replaceState(null,"","#portfolio-"+SLUG(b.dataset.c));document.getElementById("galTitle").textContent=b.dataset.c});
+  addEventListener("hashchange",route);route();
+
+  // Visionneuse
+  const lb=document.getElementById("lb"), img=document.getElementById("lbImg");
+  let list=[], pos=0, last=null;
+  function show(){
+    const w=W[list[pos]];
+    img.style.setProperty("--g",w.g);img.classList.toggle("real",/^url/.test(w.g)); img.style.setProperty("--r",w.r);
+    document.getElementById("lbTitle").textContent=w.t||w.c;
+    document.getElementById("lbMeta").textContent=[w.t?w.c:"",w.l,w.v?"vidéo "+w.v:""].filter(Boolean).join(" · ");
+    document.getElementById("lbSpec").textContent=w.s;
+    document.getElementById("lbCount").textContent=`${String(pos+1).padStart(2,"0")} / ${String(list.length).padStart(2,"0")}`;
+    [1,-1].forEach(d=>{const n=W[list[(pos+d+list.length)%list.length]],m=n&&n.g.match(/url\(([^)]+)\)/);if(m){const im=new Image();im.src=m[1]}});
+  }
+  function open(i,from){list=from==="gallery"?visible:W.map((_,k)=>k);pos=list.indexOf(i);last=document.activeElement;lb.hidden=false;document.body.style.overflow="hidden";show();document.getElementById("lbClose").focus()}
+  function close(){lb.hidden=true;document.body.style.overflow="";last&&last.focus()}
+  const step=d=>{pos=(pos+d+list.length)%list.length;show()};
+  document.addEventListener("click",e=>{const t=e.target.closest(".tile");if(!t)return;open(+t.dataset.i,t.closest("#gallery")?"gallery":"all")});
+  document.getElementById("lbClose").onclick=close;
+  document.getElementById("lbPrev").onclick=()=>step(-1);
+  document.getElementById("lbNext").onclick=()=>step(1);
+  lb.addEventListener("click",e=>{if(e.target===lb)close()});
+  document.addEventListener("keydown",e=>{if(lb.hidden)return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")step(-1);if(e.key==="ArrowRight")step(1)});
+  let sx=null;lb.addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)step(dx<0?1:-1);sx=null});
+
+  // Réservation
+  const TYPES=["Lifestyle","Mariage","Sport","Entreprise","Studio","Anniversaire","Musique","Vidéo"];
+  const types=document.getElementById("types"), slots=document.getElementById("slot");
+  TYPES.forEach((t,i)=>types.insertAdjacentHTML("beforeend",`<label class="chip"><input type="radio" name="type" id="type${i}" value="${t}"${i===0?" checked":""}><span>${t}</span></label>`));
+  const date=document.getElementById("date");
+  const iso=d=>d.toISOString().slice(0,10);
+  const soon=new Date();soon.setDate(soon.getDate()+2);
+  date.min=iso(new Date());date.value=iso(soon);
+  const f=document.getElementById("f"), err=document.getElementById("err");
+  f.addEventListener("submit",e=>{
+    e.preventDefault();
+    const type=(f.querySelector("[name=type]:checked")||{}).value, slot=slots.value;
+    const nom=document.getElementById("nom").value.trim();
+    const miss=[];if(!date.value)miss.push("la date");if(!slot)miss.push("l'heure");if(!nom)miss.push("ton prénom");
+    if(miss.length){err.textContent="Il manque "+miss.join(", ")+".";err.hidden=false;return}
+    err.hidden=true;
+    const d=new Date(date.value+"T12:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+    const lieu=document.getElementById("lieu").value.trim(), msg=document.getElementById("msg").value.trim();
+    document.getElementById("recap").textContent=`Salut Vendeiro Visions 👋\nJe veux réserver une séance ${type}.\nDate : ${d} à ${slot.replace(":"," h ").replace(" h 00"," h")}\n`+(lieu?`Lieu : ${lieu}\n`:"")+`Prénom : ${nom}`+(msg?`\nMa vision : ${msg}`:"");
+    const card=document.getElementById("recapCard"), out=document.getElementById("copied"), txt=document.getElementById("recap").textContent;
+    try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(err){}
+    let win=null;try{win=window.open("https://ig.me/m/vendeirovisions","_blank","noopener")}catch(err){}
+    card.hidden=false;out.textContent="Si Instagram ne s'est pas ouvert, utilise le bouton ci-dessus.";out.hidden=false;
+    if(!win)card.scrollIntoView({behavior:"smooth",block:"center"});
+  });
+  document.getElementById("copy").addEventListener("click",()=>{
+    const pre=document.getElementById("recap"), out=document.getElementById("copied");
+    const fb=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);out.textContent="Texte sélectionné : fais Copier.";out.hidden=false};
+    try{navigator.clipboard.writeText(pre.textContent).then(()=>{out.textContent="Copié. Colle-le en message sur Instagram @vendeirovisions.";out.hidden=false},fb)}catch(e){fb()}
+  });
+  // Newsletter : enregistre l'adresse (une fiche par personne)
+  (function(){
+    const form=document.getElementById("nlForm"), input=document.getElementById("nlEmail"), msg=document.getElementById("nlMsg"), btn=document.getElementById("nlBtn");
+    const say=(t,bad)=>{msg.textContent=t;msg.classList.toggle("bad",!!bad)};
+    let dbP=null, userP=null;
+    form.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const email=input.value.trim().toLowerCase();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){say("Entre une adresse e-mail valide, par exemple prenom@gmail.com.",true);return}
+      const sub=encodeURIComponent("Inscription newsletter"), body=encodeURIComponent("Bonjour, je souhaite m'inscrire à la newsletter Vendeiro Visions avec l'adresse : "+email);
+      window.location.href="mailto:vendeirovisions@gmail.com?subject="+sub+"&body="+body;
+      say("Ton application e-mail s'ouvre : envoie le message pour confirmer ton inscription.");input.value="";
+    });
+  })();
+  // Avis clients : ajoute ici les vrais avis reçus (n = prénom, t = texte, s = note sur 5, c = type de séance)
+  const AVIS=[];
+  (function(){
+    const strip=document.getElementById("avisStrip"), track=document.getElementById("avisTrack");
+    const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    if(!AVIS.length){
+      strip.outerHTML='<div class="wrap"><div class="avis-empty"><p>Les premiers avis arrivent bientôt.</p></div></div>';
+      return;
+    }
+    const card=a=>`<figure class="avis-card"><span class="stars" aria-label="${a.s||5} sur 5">${"★".repeat(a.s||5)}${"☆".repeat(5-(a.s||5))}</span><q>${esc(a.t)}</q><footer><b>${esc(a.n)}</b><span>${esc(a.c||"")}</span></footer></figure>`;
+    const html=AVIS.map(card).join("");
+    track.innerHTML=html+html.replace(/<figure /g,'<figure aria-hidden="true" ');
+    track.style.setProperty("--dur",Math.max(30,AVIS.length*9)+"s");
+  })();
+
+  // FAQ : demande particulière
+  (function(){
+    const f=document.getElementById("askForm"); if(!f)return;
+    const err=document.getElementById("askErr"), hint=document.getElementById("askHint");
+    f.addEventListener("submit",e=>{
+      e.preventDefault();
+      const n=document.getElementById("askName").value.trim(), m=document.getElementById("askMsg").value.trim();
+      const miss=[];if(!n)miss.push("ton prénom");if(!m)miss.push("ton message");
+      if(miss.length){err.textContent="Il manque "+miss.join(" et ")+".";err.hidden=false;return}
+      err.hidden=true;
+      const txt=`Bonjour Vendeiro, j'ai une demande particulière.\n${m}\n— ${n}`;
+      try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(x){}
+      const url="mailto:vendeirovisions@gmail.com?subject="+encodeURIComponent("Demande particulière – "+n)+"&body="+encodeURIComponent(txt);
+      try{window.location.href=url}catch(x){}
+      hint.innerHTML='Si ta messagerie ne s\'ouvre pas, ton message est copié : colle-le dans un e-mail à <b class="ask-mail">vendeirovisions@gmail.com</b>.';
+    });
+  })();
+
+  // Lien Instagram : copie le message avant d'ouvrir la conversation
+  document.addEventListener("click",e=>{
+    const a=e.target.closest(".igdm, #waSend");if(!a)return;
+    const txt=a.id==="waSend"?document.getElementById("recap").textContent:a.dataset.msg;
+    try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(err){}
+  });
+})();
+</script>
+
+</body></html>
